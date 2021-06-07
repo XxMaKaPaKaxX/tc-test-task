@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { sortByLastName } from './utilities';
 
 
 const App = () => {
-  return (
-    <h1>Hello!</h1>
-  );
+    const url = 'https://teacode-recruitment-challenge.s3.eu-central-1.amazonaws.com/users.json';
+
+    const [contactsData, setContactsData] = useState([]);
+
+    const fetchData = async (url) => {
+        const response = await fetch(url);
+        const data = await response.json();
+        setContactsData(data)
+    }
+
+    useEffect(() => fetchData(url), []);
+
+    contactsData.sort((a, b) => sortByLastName(a, b));
+    console.log(contactsData)
+
+    return (
+        <>
+            <section className='contacts container-md d-flex flex-column'>
+                <p className="contacts__header d-flex justify-content-center align-items-center m-0 py-3">Contacts</p>
+                <input type="text" className='contacts__seaching-input' />
+
+            </section>
+        </>
+    );
 }
 
 export default App;
