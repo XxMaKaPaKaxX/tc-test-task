@@ -33,20 +33,29 @@ const App = () => {
         }))
     }
 
-    const filteredContacts = searchQuery.length === 0 ? contactsData : contactsData.filter(contact => {
+    const displayedContacts = searchQuery.length === 0 ? contactsData : contactsData.filter(contact => {
         const normalisedSearchQuery = searchQuery.toLowerCase();
         const normalisedFirstName = contact.first_name.toLowerCase();
         const normalisedLastName = contact.last_name.toLowerCase();
         return (normalisedFirstName.includes(normalisedSearchQuery)) || (normalisedLastName.includes(normalisedSearchQuery));
     });
 
-
     return (
         <>
             <section className='contacts container-sm d-flex flex-column'>
                 <p className="contacts__header d-flex justify-content-center align-items-center m-0 py-3">Contacts</p>
-                <input type="text" className='contacts__seaching-input' value={searchQuery} onChange={handleOnChangeSearch} />
-                <ContactsList data={filteredContacts} toggleStatus={toggleContactSelectStatus} />
+                <div className="input-group contacts__seaching-input">
+                    <span className="input-group-text" id="search-addon"><i className="fas fa-search"></i></span>
+                    <input
+                        type="search"
+                        className="form-control contacts__seaching-input"
+                        aria-label="Search"
+                        aria-describedby="search-addon"
+                        value={searchQuery}
+                        onChange={handleOnChangeSearch}
+                    />
+                </div>
+                <ContactsList data={displayedContacts} toggleStatus={toggleContactSelectStatus} />
             </section>
         </>
     );
