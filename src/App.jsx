@@ -12,14 +12,25 @@ const App = () => {
     const fetchData = async (url) => {
         const response = await fetch(url);
         const data = await response.json();
-        data.sort((a, b) => sortByLastName(a, b));
-        setContactsData(data)
+        const extendedData = data.map(contact => {
+            return { ...contact, isSelected: false }
+        });
+        extendedData.sort((a, b) => sortByLastName(a, b));
+        setContactsData(extendedData);
     }
 
     useEffect(() => fetchData(url), []);
 
     const handleOnChangeSearch = (event) => {
         setSearchQuery(event.target.value);
+    }
+
+    const toggleContactSelectStatus = (id) => {
+        setContactsData(contactsData.map(contact => {
+            if (contact.id === id) {
+                return { ...contact, isSelected: !contact.isSelected }
+            } else return contact
+        }))
     }
 
     const filteredContacts = searchQuery.length === 0 ? contactsData : contactsData.filter(contact => {
@@ -29,12 +40,13 @@ const App = () => {
         return (normalisedFirstName.includes(normalisedSearchQuery)) || (normalisedLastName.includes(normalisedSearchQuery));
     });
 
+
     return (
         <>
             <section className='contacts container-sm d-flex flex-column'>
                 <p className="contacts__header d-flex justify-content-center align-items-center m-0 py-3">Contacts</p>
                 <input type="text" className='contacts__seaching-input' value={searchQuery} onChange={handleOnChangeSearch} />
-                <ContactsList data={filteredContacts} />
+                <ContactsList data={filteredContacts} toggleStatus={toggleContactSelectStatus} />
             </section>
         </>
     );
