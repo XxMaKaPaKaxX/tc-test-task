@@ -1,0 +1,12 @@
+.contacts {
+    &__header {
+        height: 60px;
+        color: white;
+        font-size: 25px;
+        background: linear-gradient(to right, rgb(101, 173, 198), rgb(54, 158, 138));
+    }
+
+    &__seaching-input {
+        height: 50px;
+    }
+}

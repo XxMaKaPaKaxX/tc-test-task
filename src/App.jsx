@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import ContactsList from './components/ContactsList/ContactsList';
 import { sortByLastName } from './utilities';
-
+import './App.scss';
 
 const App = () => {
     const url = 'https://teacode-recruitment-challenge.s3.eu-central-1.amazonaws.com/users.json';
@@ -20,10 +21,10 @@ const App = () => {
 
     return (
         <>
-            <section className='contacts container-md d-flex flex-column'>
+            <section className='contacts container-sm d-flex flex-column'>
                 <p className="contacts__header d-flex justify-content-center align-items-center m-0 py-3">Contacts</p>
                 <input type="text" className='contacts__seaching-input' />
-
+                <ContactsList data={contactsData} />
             </section>
         </>
     );
